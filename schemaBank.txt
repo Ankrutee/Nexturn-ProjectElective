@@ -1,0 +1,141 @@
+DROP DATABASE IF EXISTS bank;
+CREATE DATABASE bank;
+
+-- Use the database
+USE bank;
+
+-- Table: Employee
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY NOT NULL,
+    EmployeeFirstName VARCHAR(25) NOT NULL,
+    EmployeeMiddleInitial CHAR(1),
+    EmployeeLastName VARCHAR(25) NOT NULL,
+    EmployeeIsManager BIT
+);
+
+-- Table: UserLogins
+CREATE TABLE UserLogins (
+    UserLoginID INT PRIMARY KEY NOT NULL,
+    UserName CHAR(15) NOT NULL,
+    UserPassword VARCHAR(20) NOT NULL
+);
+
+-- Table: UserSecurityQuestions
+CREATE TABLE UserSecurityQuestions (
+    UserSecurityQuestionID INT PRIMARY KEY NOT NULL,
+    UserSecurityQuestion VARCHAR(50) NOT NULL
+);
+
+-- Table: AccountType
+CREATE TABLE AccountType (
+    AccountTypeID INT PRIMARY KEY NOT NULL,
+    AccountTypeName VARCHAR(30) NOT NULL
+);
+
+-- Table: SavingsInterestRates
+CREATE TABLE SavingsInterestRates (
+    InterestSavingsRateID INT PRIMARY KEY NOT NULL,
+    InterestRateValue FLOAT NOT NULL,
+    InterestRateName VARCHAR(20)
+);
+
+-- Table: AccountStatusType
+CREATE TABLE AccountStatusType (
+    AccountStatusTypeID INT PRIMARY KEY NOT NULL,
+    AccountStatusName VARCHAR(30) NOT NULL
+);
+
+-- Table: TransactionType
+CREATE TABLE TransactionType (
+    TransactionTypeID INT PRIMARY KEY NOT NULL,
+    TransactionTypeName VARCHAR(10) NOT NULL,
+    TransactionFeeAmount DECIMAL(10, 2) NOT NULL
+);
+
+-- Table: LoginErrorLog
+CREATE TABLE LoginErrorLog (
+    ErrorLogID INT PRIMARY KEY NOT NULL,
+    ErrorTime TEXT NOT NULL
+);
+
+-- Table: FailedTransactionErrorType
+CREATE TABLE FailedTransactionErrorType (
+    FailedTransactionErrorTypeID INT PRIMARY KEY NOT NULL,
+    FailedTransactionName VARCHAR(50) NOT NULL
+);
+
+-- Table: FailedTransactionLog
+CREATE TABLE FailedTransactionLog (
+    FailedTransactionID INT PRIMARY KEY NOT NULL,
+    FailedTransactionErrorTypeID INT NOT NULL,
+    FailedTransactionErrorTime DATE NOT NULL,
+    FailedTransactionXML TEXT NOT NULL,
+    FOREIGN KEY (FailedTransactionErrorTypeID) REFERENCES FailedTransactionErrorType(FailedTransactionErrorTypeID)
+);
+
+-- Table: Account
+CREATE TABLE Account (
+    AccountID INT PRIMARY KEY NOT NULL,
+    CurrentBalance INT NOT NULL,
+    AccountTypeID INT NOT NULL,
+    AccountStatusTypeID INT NOT NULL,
+    InterestSavingsRateID INT NOT NULL,
+    FOREIGN KEY (AccountTypeID) REFERENCES AccountType(AccountTypeID),
+    FOREIGN KEY (AccountStatusTypeID) REFERENCES AccountStatusType(AccountStatusTypeID),
+    FOREIGN KEY (InterestSavingsRateID) REFERENCES SavingsInterestRates(InterestSavingsRateID)
+);
+
+-- Table: OverDraftLog
+CREATE TABLE OverDraftLog (
+    AccountID INT PRIMARY KEY NOT NULL,
+    OverDraftDate DATE NOT NULL,
+    OverDraftAmount INT NOT NULL,
+    OverDraftTransactionXML TEXT,
+    FOREIGN KEY (AccountID) REFERENCES Account(AccountID)
+);
+
+-- Table: Customer
+CREATE TABLE Customer (
+    CustomerID INT PRIMARY KEY NOT NULL,
+    CustomerAddress1 VARCHAR(30) NOT NULL,
+    CustomerAddress2 VARCHAR(30),
+    CustomerFirstName VARCHAR(30) NOT NULL,
+    CustomerMiddleInitial CHAR(1),
+    CustomerLastName VARCHAR(30) NOT NULL,
+    City VARCHAR(20) NOT NULL,
+    State CHAR(2) NOT NULL,
+    ZipCode CHAR(10) NOT NULL,
+    EmailAddress VARCHAR(40) NOT NULL,
+    HomePhone CHAR(10) NOT NULL,
+    CellPhone CHAR(10),
+    WorkPhone CHAR(10),
+    SSN CHAR(9),
+    UserLoginID INT NOT NULL,
+    FOREIGN KEY (UserLoginID) REFERENCES UserLogins(UserLoginID)
+);
+
+-- Table: CustomerAccount
+CREATE TABLE CustomerAccount (
+    AccountID INT NOT NULL,
+    CustomerID INT NOT NULL,
+    FOREIGN KEY (AccountID) REFERENCES Account(AccountID),
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+-- Table: LoginAccount
+CREATE TABLE LoginAccount (
+    UserLoginID INT NOT NULL,
+    AccountID INT NOT NULL,
+    FOREIGN KEY (UserLoginID) REFERENCES UserLogins(UserLoginID),
+    FOREIGN KEY (AccountID) REFERENCES Account(AccountID)
+);
+
+-- Table: UserSecurityAnswers
+CREATE TABLE UserSecurityAnswers (
+    UserLoginID INT PRIMARY KEY NOT NULL,
+    UserSecurityAnswer VARCHAR(25) NOT NULL,
+    UserSecurityQuestionID INT NOT NULL,
+    FOREIGN KEY (UserLoginID) REFERENCES UserLogins(UserLoginID),
+    FOREIGN KEY (UserSecurityQuestionID) REFERENCES UserSecurityQuestions(UserSecurityQuestionID)
+);
+

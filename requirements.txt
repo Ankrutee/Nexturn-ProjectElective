@@ -1,0 +1,11 @@
+transformers
+torch
+torchvision
+torchaudio
+mysql-connector-python
+numpy
+openai
+streamlit
+scikit-learn
+huggingface_hub
+

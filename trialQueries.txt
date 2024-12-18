@@ -1,0 +1,22 @@
+Complex Queries
+----------------
+Can you tell me the total balance of all 'Savings' accounts?
+List the employees who are managers.
+What is the transaction fee for 'Insurance' transactions?
+Who answered 'Blue' for their security question?
+Find customers who have overdraft logs and their overdraft amounts.
+
+Error Checking
+---------------
+Display all rows from the FailedTransactionLog table.
+What is the most common failed transaction error type?
+Show the login error logs after 2019.
+Which accounts are linked to inactive account status?
+
+Multi-Table Queries
+--------------------
+List all customers and their corresponding account types.
+Show all customers who have made an overdraft and their current balance.
+What are the security questions and answers for user logins?
+Find the account balance for the user 'christine'
+Which customer accounts are linked to the login 'johndoe'?
