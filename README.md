@@ -17,7 +17,7 @@ Prerequisites
 Before running this project, make sure you have the following installed:
 1. Python 3.6 or higher
 2. MySQL database server (configured and running)
-3. OpenAI API key (for GPT model usage)
+3. OpenAI API key (for GPT model usage) and MistralAI key
 4. Necessary Python libraries (listed in requirements.txt)
 
 Installing Dependencies
@@ -26,9 +26,9 @@ pip install -r requirements.txt
 2. Database Setup
 Create a MySQL database and import the bank.sql file to set up the required database schema.
 3. Update the database connection details in the connect_to_mysql() function (in main.py) with your MySQL credentials.
-OpenAI API Setup
-4. Sign up for OpenAI API access if you don't have an account.
-5. Replace the placeholder <INSERT YOUR KEY HERE> in the code with your OpenAI API key in both main.py and app.py.
+4. OpenAI API Setup and Mistral AI setup
+Sign up for OpenAI API and Mistral AI api access if you don't have an account.
+5. Replace the placeholder <INSERT YOUR KEY HERE> in the code with your OpenAI and Mistral AI API key in both main.py and app.py.
 6. Running the Application
 
 To run the terminal application:
